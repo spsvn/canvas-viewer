@@ -1,27 +1,22 @@
 {
-  "name": "canvas-viewer",
+  "name": "sps-canvas-viewer",
   "authors": [
     "Hunt Nguyen <hunguyenv@gmail.com>"
   ],
-  "description": "Images, Tiff and PDF Canvas viewer",
+  "description": "Images and PDF viewer using RaphaelJs",
   "main": [
-    "src/canvas-viewer.js",
-    "src/canvas-viewer.css"
+    "src/FormatReader.js",
+    "src/CanvasViewer.js",
+    "src/CanvasViewer.css"
   ],
   "moduleType": [],
   "keywords": [
-    "angularjs",
-    "canvas",
-    "material",
+    "angular",
     "image",
-    "viewer",
-    "tiff",
-    "viewer",
-    "pdf",
     "viewer"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/spsvn/canvas-viewer",
+  "homepage": "https://github.com/spsvn/angular-canvas-viewer",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -30,9 +25,8 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "latest",
-    "FormatReader": "latest",
-    "spsvn-tiffjs": "latest",
-    "pdfjs-dist": "latest"
+    "angular": "1.6.4",
+    "spsvn-tiffjs": "^0.3.0",
+    "pdfjs-dist": "^1.8.497"
   }
 }
