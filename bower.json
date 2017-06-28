@@ -5,9 +5,9 @@
   ],
   "description": "Images, Tiff and PDF Canvas viewer",
   "main": [
-    "src/FormatReader.js",
-    "src/CanvasViewer.js",
-    "src/CanvasViewer.css"
+    "src/formatreader.js",
+    "src/canvas-viewer.js",
+    "src/canvas-viewer.css"
   ],
   "moduleType": [],
   "keywords": [
