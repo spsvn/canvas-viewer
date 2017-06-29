@@ -24,46 +24,46 @@
 '                <h3 class="md-toolbar-tools" layout="row" layout-align="space-between center">' +
 '                    <md-truncate flex ng-if="title!=null">Page {{title}}</md-truncate>' +
 '                    <div class="canvas-viewer-command" ng-if="options.controls.image">' +
-'                        <md-button id="btnPagePrev" class="md-secondary" ng-click="options.controls.numPage=options.controls.numPage-1"' +
+'                        <md-button class="md-icon-button" id="btnPagePrev" ng-click="options.controls.numPage=options.controls.numPage-1"' +
 '                                   ng-hide="options.controls.totalPage==1">' +
-'                            <i class="material-icons">navigate_before</i>' +
+'                            <md-icon>navigate_before</md-icon>' +
 '                            <md-tooltip md-direction="bottom">Previous</md-tooltip>' +
 '                        </md-button>' +
-'                        <md-button class="md-secondary" ng-hide="options.controls.totalPage==1">' +
+'                        <md-button class="md-icon-button" ng-hide="options.controls.totalPage==1">' +
 '                            {{options.controls.numPage}}/{{options.controls.totalPage}}' +
 '                        </md-button>' +
-'                        <md-button id="btnPageNext" class="md-secondary" ng-click="options.controls.numPage=options.controls.numPage+1"' +
+'                        <md-button class="md-icon-button" id="btnPageNext" ng-click="options.controls.numPage=options.controls.numPage+1"' +
 '                                   ng-hide="options.controls.totalPage==1">' +
-'                            <i class="material-icons">navigate_next</i>' +
+'                            <md-icon>navigate_next</md-icon>' +
 '                            <md-tooltip md-direction="bottom">Next</md-tooltip>' +
 '                        </md-button>' +
-'                        <md-button class="md-secondary" id="btnFullscreen" ng-click="resizeTo(page)">' +
-'                            <i class="material-icons">fullscreen</i>' +
+'                        <md-button class="md-icon-button" id="btnFullscreen" ng-click="resizeTo(page)">' +
+'                            <md-icon>fullscreen</md-icon>' +
 '                            <md-tooltip md-direction="bottom">Fullscreen</md-tooltip>' +
 '                        </md-button>' +
-'                        <md-button id="btnRotateLeft" ng-click="rotate(-1)" ng-hide="options.controls.disableRotate">' +
-'                            <i class="material-icons">rotate_left</i>' +
+'                        <md-button class="md-icon-button" id="btnRotateLeft" ng-click="rotate(-1)" ng-hide="options.controls.disableRotate">' +
+'                            <md-icon>rotate_left</md-icon>' +
 '                            <md-tooltip md-direction="bottom">Rotate Left</md-tooltip>' +
 '                        </md-button>' +
-'                        <md-button id="btnRotateRight" ng-click="rotate(1)" ng-hide="options.controls.disableRotate">' +
-'                            <i class="material-icons">rotate_right</i>' +
+'                        <md-button class="md-icon-button" id="btnRotateRight" ng-click="rotate(1)" ng-hide="options.controls.disableRotate">' +
+'                            <md-icon>rotate_right</md-icon>' +
 '                            <md-tooltip md-direction="bottom">Rotate Right</md-tooltip>' +
 '                        </md-button>' +
-'                        <md-button id="btnZoomOut" ng-click="zoom(-1)" ng-hide="options.controls.disableZoom">' +
-'                            <i class="material-icons">zoom_out</i>' +
+'                        <md-button class="md-icon-button" id="btnZoomOut" ng-click="zoom(-1)" ng-hide="options.controls.disableZoom">' +
+'                            <md-icon>zoom_out</md-icon>' +
 '                            <md-tooltip md-direction="bottom">Zoom Out</md-tooltip>' +
 '                        </md-button>' +
-'                        <md-button ng-hide="options.controls.disableZoom">{{options.zoom.value * 100 | number:0}}%</md-button>' +
-'                        <md-button id="btnZoomIn" ng-click="zoom(1)" ng-hide="options.controls.disableZoom">' +
-'                            <i class="material-icons">zoom_in</i>' +
+'                        <md-button class="md-icon-button" ng-hide="options.controls.disableZoom">{{options.zoom.value * 100 | number:0}}%</md-button>' +
+'                        <md-button class="md-icon-button" id="btnZoomIn" ng-click="zoom(1)" ng-hide="options.controls.disableZoom">' +
+'                            <md-icon>zoom_in</md-icon>' +
 '                            <md-tooltip md-direction="bottom">Zoom In</md-tooltip>' +
 '                        </md-button>' +
 '                    </div>' +
 '                    <div class="canvas-viewer-command" ng-if="options.controls.sound">' +
-'                        <md-button id="btnStop" ng-click="stop()"><i class="material-icons">stop</i></md-button>' +
-'                        <md-button id="btnPlay" ng-click="play()"><i class="material-icons">play_arrow</i></md-button>' +
+'                        <md-button id="btnStop" ng-click="stop()"><md-icon>stop</md-icon></md-button>' +
+'                        <md-button id="btnPlay" ng-click="play()"><md-icon>play_arrow</md-icon></md-button>' +
 '                    </div>' +
-'                    <div class="viewer-controls">' +
+'                    <div class="viewer-controls" ng-if="options.controls.viewer">' +
 '                        <md-button id="btnTogglePage" class="md-icon-button" ng-click="$parent.main.togglePage()"' +
 '                                   aria-label="Hide Page Window">' +
 '                            <md-tooltip md-direction="bottom">Hide Page Window</md-tooltip>' +
@@ -133,7 +133,8 @@
                     disableRotate: false,
                     numPage: 1,
                     totalPage: 1,
-                    filmStrip: false
+                    filmStrip: false,
+					viewer: true
                 },
                 info: {}
             }, scope.options);
