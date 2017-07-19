@@ -18,80 +18,80 @@
                 overlays: '=overlays',
                 title: '@title',
                 options: '=options',
-                togglePage: '&'
+                togglePage: '&',
+                tool: '='
             },
             template: '           <md-toolbar class="md-small-tall md-whiteframe-2dp">' +
-'                <h3 class="md-toolbar-tools" layout="row" layout-align="space-between center">' +
-'                    <md-truncate flex ng-if="title!=null">{{title}}</md-truncate>' +
-'                    <div class="canvas-viewer-command" ng-if="options.controls.image">' +
-'                        <md-button class="md-icon-button" id="btnPagePrev" ng-click="options.controls.numPage=options.controls.numPage-1"' +
-'                                   ng-hide="options.controls.totalPage==1">' +
-'                            <md-icon>navigate_before</md-icon>' +
-'                            <md-tooltip md-direction="bottom">Previous</md-tooltip>' +
-'                        </md-button>' +
-'                        <md-button class="md-icon-button" ng-hide="options.controls.totalPage==1">' +
-'                            {{options.controls.numPage}}/{{options.controls.totalPage}}' +
-'                        </md-button>' +
-'                        <md-button class="md-icon-button" id="btnPageNext" ng-click="options.controls.numPage=options.controls.numPage+1"' +
-'                                   ng-hide="options.controls.totalPage==1">' +
-'                            <md-icon>navigate_next</md-icon>' +
-'                            <md-tooltip md-direction="bottom">Next</md-tooltip>' +
-'                        </md-button>' +
-'                        <md-button class="md-icon-button" id="btnFullscreen" ng-click="resizeTo(page)">' +
-'                            <md-icon>fullscreen</md-icon>' +
-'                            <md-tooltip md-direction="bottom">Fullscreen</md-tooltip>' +
-'                        </md-button>' +
-'                        <md-button class="md-icon-button" id="btnRotateLeft" ng-click="rotate(-1)" ng-hide="options.controls.disableRotate">' +
-'                            <md-icon>rotate_left</md-icon>' +
-'                            <md-tooltip md-direction="bottom">Rotate Left</md-tooltip>' +
-'                        </md-button>' +
-'                        <md-button class="md-icon-button" id="btnRotateRight" ng-click="rotate(1)" ng-hide="options.controls.disableRotate">' +
-'                            <md-icon>rotate_right</md-icon>' +
-'                            <md-tooltip md-direction="bottom">Rotate Right</md-tooltip>' +
-'                        </md-button>' +
-'                        <md-button class="md-icon-button" id="btnZoomOut" ng-click="zoom(-1)" ng-hide="options.controls.disableZoom">' +
-'                            <md-icon>zoom_out</md-icon>' +
-'                            <md-tooltip md-direction="bottom">Zoom Out</md-tooltip>' +
-'                        </md-button>' +
-'                        <md-button class="md-icon-button" ng-hide="options.controls.disableZoom">{{options.zoom.value * 100 | number:0}}%</md-button>' +
-'                        <md-button class="md-icon-button" id="btnZoomIn" ng-click="zoom(1)" ng-hide="options.controls.disableZoom">' +
-'                            <md-icon>zoom_in</md-icon>' +
-'                            <md-tooltip md-direction="bottom">Zoom In</md-tooltip>' +
-'                        </md-button>' +
-'                    </div>' +
-'                    <div class="canvas-viewer-command" ng-if="options.controls.sound">' +
-'                        <md-button id="btnStop" ng-click="stop()"><md-icon>stop</md-icon></md-button>' +
-'                        <md-button id="btnPlay" ng-click="play()"><md-icon>play_arrow</md-icon></md-button>' +
-'                    </div>' +
-'                    <div class="viewer-controls" ng-if="options.controls.window">' +
-'                        <md-button id="btnTogglePage" class="md-icon-button" ng-click="$parent.main.togglePage()"' +
-'                                   aria-label="Hide Page Window">' +
-'                            <md-tooltip md-direction="bottom">Hide Page Window</md-tooltip>' +
-'                            <md-icon>format_indent_decrease</md-icon>' +
-'                        </md-button>' +
-'                        <md-button id="btnDetachPage" class="md-icon-button" ng-click="$parent.main.detachPage($event)" aria-label="Open in new Window">' +
-'                            <md-tooltip md-direction="bottom">Open in new Window</md-tooltip>' +
-'                            <md-icon>open_in_new</md-icon>' +
-'                        </md-button>' +
-'                    </div>' +
-'                </h3>' +
-'            </md-toolbar>' +
-'            <md-content layout-padding="" flex="">' +
-'                <div class="viewer-container">' +
-'                    <canvas class="viewer"' +
-'                            ng-mouseleave="canMove=false"' +
-'                            ng-mousedown="mousedown($event)"' +
-'                            ng-mouseup="mouseup($event)"' +
-'                            ng-init="canMove=false"' +
-'                            ng-mousemove="mousedrag($event,canMove)">' +
-'                    </canvas>' +
-'                </div>' +
-'            </md-content>'
+            '                <h3 class="md-toolbar-tools" layout="row" layout-align="space-between center">' +
+            '                    <md-truncate flex ng-if="title!=null">{{title}}</md-truncate>' +
+            '                    <div class="canvas-viewer-command" ng-if="options.controls.image">' +
+            '                        <md-button class="md-icon-button" id="btnPagePrev" ng-click="options.controls.numPage=options.controls.numPage-1"' +
+            '                                   ng-hide="options.controls.totalPage==1">' +
+            '                            <md-icon>navigate_before</md-icon>' +
+            '                            <md-tooltip md-direction="bottom">Previous</md-tooltip>' +
+            '                        </md-button>' +
+            '                        <md-button class="md-icon-button" ng-hide="options.controls.totalPage==1">' +
+            '                            {{options.controls.numPage}}/{{options.controls.totalPage}}' +
+            '                        </md-button>' +
+            '                        <md-button class="md-icon-button" id="btnPageNext" ng-click="options.controls.numPage=options.controls.numPage+1"' +
+            '                                   ng-hide="options.controls.totalPage==1">' +
+            '                            <md-icon>navigate_next</md-icon>' +
+            '                            <md-tooltip md-direction="bottom">Next</md-tooltip>' +
+            '                        </md-button>' +
+            '                        <md-button class="md-icon-button" id="btnFullscreen" ng-click="resizeTo(page)">' +
+            '                            <md-icon>fullscreen</md-icon>' +
+            '                            <md-tooltip md-direction="bottom">Fullscreen</md-tooltip>' +
+            '                        </md-button>' +
+            '                        <md-button class="md-icon-button" id="btnRotateLeft" ng-click="rotate(-1)" ng-hide="options.controls.disableRotate">' +
+            '                            <md-icon>rotate_left</md-icon>' +
+            '                            <md-tooltip md-direction="bottom">Rotate Left</md-tooltip>' +
+            '                        </md-button>' +
+            '                        <md-button class="md-icon-button" id="btnRotateRight" ng-click="rotate(1)" ng-hide="options.controls.disableRotate">' +
+            '                            <md-icon>rotate_right</md-icon>' +
+            '                            <md-tooltip md-direction="bottom">Rotate Right</md-tooltip>' +
+            '                        </md-button>' +
+            '                        <md-button class="md-icon-button" id="btnZoomOut" ng-click="zoom(-1)" ng-hide="options.controls.disableZoom">' +
+            '                            <md-icon>zoom_out</md-icon>' +
+            '                            <md-tooltip md-direction="bottom">Zoom Out</md-tooltip>' +
+            '                        </md-button>' +
+            '                        <md-button class="md-icon-button" ng-hide="options.controls.disableZoom">{{options.zoom.value * 100 | number:0}}%</md-button>' +
+            '                        <md-button class="md-icon-button" id="btnZoomIn" ng-click="zoom(1)" ng-hide="options.controls.disableZoom">' +
+            '                            <md-icon>zoom_in</md-icon>' +
+            '                            <md-tooltip md-direction="bottom">Zoom In</md-tooltip>' +
+            '                        </md-button>' +
+            '                    </div>' +
+            '                    <div class="canvas-viewer-command" ng-if="options.controls.sound">' +
+            '                        <md-button id="btnStop" ng-click="stop()"><md-icon>stop</md-icon></md-button>' +
+            '                        <md-button id="btnPlay" ng-click="play()"><md-icon>play_arrow</md-icon></md-button>' +
+            '                    </div>' +
+            '                    <div class="viewer-controls" ng-if="options.controls.window">' +
+            '                        <md-button id="btnTogglePage" class="md-icon-button" ng-click="$parent.main.togglePage()"' +
+            '                                   aria-label="Hide Page Window">' +
+            '                            <md-tooltip md-direction="bottom">Hide Page Window</md-tooltip>' +
+            '                            <md-icon>format_indent_decrease</md-icon>' +
+            '                        </md-button>' +
+            '                        <md-button id="btnDetachPage" class="md-icon-button" ng-click="$parent.main.detachPage($event)" aria-label="Open in new Window">' +
+            '                            <md-tooltip md-direction="bottom">Open in new Window</md-tooltip>' +
+            '                            <md-icon>open_in_new</md-icon>' +
+            '                        </md-button>' +
+            '                    </div>' +
+            '                </h3>' +
+            '            </md-toolbar>' +
+            '            <md-content layout-padding="" flex="">' +
+            '                <div class="viewer-container">' +
+            '                    <canvas class="viewer"' +
+            '                            ng-mouseleave="canMove=false"' +
+            '                            ng-mousedown="mousedown($event)"' +
+            '                            ng-mouseup="mouseup($event)"' +
+            '                            ng-init="canMove=false"' +
+            '                            ng-mousemove="mousedrag($event,canMove)">' +
+            '                    </canvas>' +
+            '                </div>' +
+            '            </md-content>'
         };
         return directive;
 
         function link(scope, element, attrs) {
-
 
             var canvasEl = element.find('canvas')[0];
             var ctx = canvasEl.getContext('2d');
@@ -100,12 +100,12 @@
             var canvasSize = canvasEl.parentNode;
             ctx.canvas.width = canvasSize.clientWidth;
             ctx.canvas.height = canvasSize.clientHeight;
-            var resize = {height: canvasSize.clientHeight, width: canvasSize.clientWidth};
+            var resize = { height: canvasSize.clientHeight, width: canvasSize.clientWidth };
             // initialize variable
             var img = null;
-            var curPos = {x: 0, y: 0};
-            var picPos = {x: 0, y: 0};
-            var mousePos = {x: 0, y: 0};
+            var curPos = { x: 0, y: 0 };
+            var picPos = { x: 0, y: 0 };
+            var mousePos = { x: 0, y: 0 };
             var overlays = [];
             var reader = null;
 
@@ -115,7 +115,7 @@
                 adsrc: null,
                 zoom: {
                     value: 1.0,
-                    step: 0.1,
+                    step: 0.05,
                     min: 0.25,
                     max: 8
                 },
@@ -134,7 +134,7 @@
                     numPage: 1,
                     totalPage: 1,
                     filmStrip: false,
-					window: true
+                    window: true
                 },
                 info: {}
             }, scope.options);
@@ -147,7 +147,7 @@
                 }
 
                 $log.debug('$state', $state.current.name);
-                if(angular.equals($state.current.name, 'page')){
+                if (angular.equals($state.current.name, 'page')) {
                     element.find('.viewer-controls').detach();
                 }
 
@@ -164,11 +164,11 @@
                 // initialize values on load
                 scope.options.zoom.value = 1.0;
                 scope.options.rotate.value = 0;
-                curPos = {x: 0, y: 0};
-                picPos = {x: 0, y: 0};
+                curPos = { x: 0, y: 0 };
+                picPos = { x: 0, y: 0 };
 
                 // test if object or string is input of directive
-                if (typeof(value) === 'object') {
+                if (typeof (value) === 'object') {
                     // Object type file
                     if (formatReader.IsSupported(value.type)) {
                         // get object
@@ -178,7 +178,7 @@
                     } else {
                         console.log(value.type, ' not supported !');
                     }
-                } else if (typeof(value) === 'string') {
+                } else if (typeof (value) === 'string') {
                     reader = formatReader.CreateReader("image/jpeg").create(value, scope.options, onload, $q, $timeout);
                 }
             });
@@ -241,6 +241,53 @@
                             reader.refresh();
                         }
                     }
+                }
+            });
+
+            scope.$watch('tool', function (value) {
+                var options = scope.options;
+                var centerX = reader.width * options.zoom.value / 2;
+                var centerY = reader.height * options.zoom.value / 2;
+                $log.debug('current tool', value);
+                // Current tool is hide
+                if (angular.equals(value, 'hide')) {
+                    // scope.options.controls.disableMove = true;
+                    // Disable moving ability
+                    var hide = {
+                        offsetX: 0,
+                        offsetY: 0,
+                        width: 0,
+                        height: 0
+                    }
+                    scope.canMove = false;
+                    // Get the first mouse point
+                    angular.element(canvasEl).on('mousedown', function ($event) {
+                        if ($event.shiftKey) {
+                            scope.options.controls.disableMove = true;
+                        } else {
+                            scope.options.controls.disableMove = false;
+                            return;
+                        }
+                        $log.debug('picPos', picPos)
+                        $log.debug('mousedown offsetX', $event.offsetX)
+                        $log.debug('mousedown offsetY', $event.offsetY)
+                        hide.offsetX = $event.offsetX; //$event.offsetX
+                        hide.offsetY = $event.offsetY; //$event.offsetY
+                    });
+                    // Get the end mouse point
+                    angular.element(canvasEl).on('mouseup', function ($event) {
+
+                        if (!$event.shiftKey) {
+                            return;
+                        }
+                        $log.debug('mouseup offsetX', $event.offsetX)
+                        $log.debug('mouseup offsetY', $event.offsetY)
+                        hide.width = Math.abs($event.offsetX - hide.offsetX);
+                        hide.height = Math.abs($event.offsetY - hide.offsetY);
+                        $log.debug(hide);
+                        overlays = [{ x: hide.offsetX, y: hide.offsetY, w: hide.width, h: hide.height, color: '#000000' }];
+                        applyTransform();
+                    });
                 }
             });
 
@@ -351,9 +398,9 @@
                         ctx.scale(options.zoom.value, options.zoom.value);
                         // Start rect draw
                         ctx.beginPath();
-                        ctx.rect((item.x ), (item.y ), item.w, item.h);
+                        ctx.rect((item.x), (item.y), item.w, item.h);
                         ctx.fillStyle = item.color;
-                        ctx.globalAlpha = 0.4;
+                        ctx.globalAlpha = 1; //0.4
                         ctx.fill();
                         ctx.lineWidth = 1;
                         ctx.strokeStyle = item.color;
@@ -462,8 +509,8 @@
                 var centerX = ctx.canvas.width / 2;
                 var picPosX = 0;
                 picPosX = centerX - (reader.width * scope.options.zoom.value) / 2;
-                curPos = {x: picPosX, y: 0};
-                picPos = {x: picPosX, y: 0};
+                curPos = { x: picPosX, y: 0 };
+                picPos = { x: picPosX, y: 0 };
             }
 
             scope.resizeTo = function (value) {
@@ -482,14 +529,14 @@
                 }
                 // Adjust value
                 switch (value) {
-                    case 'width' :
+                    case 'width':
                         scope.options.zoom.value = ratioW;
                         break;
-                    case 'height' :
+                    case 'height':
                         scope.options.zoom.value = ratioH;
                         break;
-                    case 'page' :
-                    default :
+                    case 'page':
+                    default:
                         scope.options.zoom.value = Math.min(ratioH, ratioW);
                 }
                 scope.$applyAsync(function () {
