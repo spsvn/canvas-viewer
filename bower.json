@@ -5,7 +5,6 @@
   ],
   "description": "Images, Tiff and PDF Canvas viewer",
   "main": [
-    "src/formatreader.js",
     "src/canvas-viewer.js",
     "src/canvas-viewer.css"
   ],
@@ -31,8 +30,9 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "1.6.4",
-    "spsvn-tiffjs": "^0.3.0",
-    "pdfjs-dist": "^1.8.497"
+    "angular": "latest",
+	"FormatReader": "latest",
+    "spsvn-tiffjs": "latest",
+    "pdfjs-dist": "latest"
   }
 }
