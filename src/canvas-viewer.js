@@ -22,7 +22,7 @@
             },
             template: '           <md-toolbar class="md-small-tall md-whiteframe-2dp">' +
 '                <h3 class="md-toolbar-tools" layout="row" layout-align="space-between center">' +
-'                    <md-truncate flex ng-if="title!=null">Page {{title}}</md-truncate>' +
+'                    <md-truncate flex ng-if="title!=null">{{title}}</md-truncate>' +
 '                    <div class="canvas-viewer-command" ng-if="options.controls.image">' +
 '                        <md-button class="md-icon-button" id="btnPagePrev" ng-click="options.controls.numPage=options.controls.numPage-1"' +
 '                                   ng-hide="options.controls.totalPage==1">' +
@@ -63,7 +63,7 @@
 '                        <md-button id="btnStop" ng-click="stop()"><md-icon>stop</md-icon></md-button>' +
 '                        <md-button id="btnPlay" ng-click="play()"><md-icon>play_arrow</md-icon></md-button>' +
 '                    </div>' +
-'                    <div class="viewer-controls" ng-if="options.controls.viewer">' +
+'                    <div class="viewer-controls" ng-if="options.controls.window">' +
 '                        <md-button id="btnTogglePage" class="md-icon-button" ng-click="$parent.main.togglePage()"' +
 '                                   aria-label="Hide Page Window">' +
 '                            <md-tooltip md-direction="bottom">Hide Page Window</md-tooltip>' +
@@ -134,7 +134,7 @@
                     numPage: 1,
                     totalPage: 1,
                     filmStrip: false,
-					viewer: true
+					window: true
                 },
                 info: {}
             }, scope.options);
