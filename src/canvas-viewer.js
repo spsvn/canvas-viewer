@@ -94,7 +94,8 @@
         function link(scope, element, attrs) {
 
             var canvasEl = element.find('canvas')[0];
-            var ctx = canvasEl.getContext('2d');
+            var ctx = canvasEl.getContext('2d'),
+                context = ctx;
 
             // orce correct canvas size
             var canvasSize = canvasEl.parentNode;
@@ -246,11 +247,12 @@
 
             scope.$watch('tool', function (value) {
                 var options = scope.options;
-                var centerX = reader.width * options.zoom.value / 2;
-                var centerY = reader.height * options.zoom.value / 2;
                 $log.debug('current tool', value);
                 // Current tool is hide
                 if (angular.equals(value, 'hide')) {
+                    // Unregister
+                    // angular.element(canvasEl).off('mousedown');
+                    // angular.element(canvasEl).off('mouseup');
                     // scope.options.controls.disableMove = true;
                     // Disable moving ability
                     var hide = {
@@ -268,32 +270,70 @@
                             scope.options.controls.disableMove = false;
                             return;
                         }
-                        $log.debug('picPos', picPos)
-                        $log.debug('mousedown offsetX', $event.offsetX)
-                        $log.debug('mousedown offsetY', $event.offsetY)
+                        $log.debug('picPos', picPos);
+                        $log.debug('$event.offsetX', $event.offsetX, '$event.offsetY:', $event.offsetY)
                         hide.offsetX = $event.offsetX; //$event.offsetX
                         hide.offsetY = $event.offsetY; //$event.offsetY
+                        $(this).mousemove(function ($ev) {
+                            $ev.preventDefault();
+                            if ($ev.shiftKey) {
+                                var w = Math.abs($ev.offsetX - hide.offsetX);
+                                var h = Math.abs($ev.offsetY - hide.offsetY);
+                                var x = Math.min(hide.offsetX, $ev.offsetX)
+                                var y = Math.min(hide.offsetY, $ev.offsetY)
+                                // Start rect draw
+                                ctx.beginPath();
+                                ctx.rect(x, y, w, h);
+                                ctx.fillStyle = 'rgba(255,255,255,0.5)';
+                                ctx.fill();
+                                ctx.lineWidth = 1;
+                                ctx.strokeStyle = '#0000ff';
+                                ctx.stroke();
+                                ctx.restore();
+                            }
+                        });
                     });
                     // Get the end mouse point
                     angular.element(canvasEl).on('mouseup', function ($event) {
-
-                        if (!$event.shiftKey) {
+                        if ($event.shiftKey) {
+                        } else {
                             return;
                         }
-                        $log.debug('mouseup offsetX', $event.offsetX)
-                        $log.debug('mouseup offsetY', $event.offsetY)
+                        context.restore();
                         hide.width = Math.abs($event.offsetX - hide.offsetX);
                         hide.height = Math.abs($event.offsetY - hide.offsetY);
-                        $log.debug(hide);
-                        overlays = [{ x: hide.offsetX, y: hide.offsetY, w: hide.width, h: hide.height, color: '#000000' }];
+                        hide.offsetX = Math.abs(Math.min(hide.offsetX, $event.offsetX) - picPos.x);
+                        hide.offsetY = Math.abs(Math.min(hide.offsetY, $event.offsetY) - picPos.y);
+                        if (reader.isZoom) {
+                            hide.offsetX = hide.offsetX / options.zoom.value;
+                            hide.offsetY = hide.offsetY / options.zoom.value;
+                            hide.width = hide.width / options.zoom.value;
+                            hide.height = hide.height / options.zoom.value;
+                        }
+                        overlays.push({ x: hide.offsetX, y: hide.offsetY, w: hide.width, h: hide.height, color: '#000000' });
                         applyTransform();
                     });
+                } else {
+                    angular.element(canvasEl).on('mousedown', defaultMouseDown);
+                    angular.element(canvasEl).on('mouseup', defaultMouseUp);
+                    angular.element(canvasEl).on('mousemove', defaultMouseMove);
                 }
             });
-
-            // Bind mousewheel
-            angular.element(canvasEl).bind("DOMMouseScroll mousewheel onmousewheel", function ($event) {
-
+            angular.element(canvasEl).on("DOMMouseScroll mousewheel onmousewheel", defaultMouseWheel);
+            angular.element(canvasEl).on('mousedown', defaultMouseDown);
+            angular.element(canvasEl).on('mouseup', defaultMouseUp);
+            angular.element(canvasEl).on('mousemove', defaultMouseMove);
+            /**
+             * @ngdoc method
+             * @name defaultMouseWheel
+             *
+             * @description
+             * Default mousewheel event method
+             *
+             * @param {Object} value Event to be processing
+             *
+             */
+            function defaultMouseWheel($event) {
                 // cross-browser wheel delta
                 var event = window.event || $event; // old IE support
                 var delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
@@ -329,9 +369,70 @@
                 if (event.preventDefault) {
                     event.preventDefault();
                 }
+            }
+            /**
+             * @ngdoc method
+             * @name defaultMouseDown
+             *
+             * @description
+             * Default mousedown event method
+             *
+             * @param {Object} value Event to be processing
+             *
+             */
+            function defaultMouseDown($event) {
+                if (scope.options.controls.disableMove) {
+                    return;
+                }
+                scope.canMove = true;
+                curPos.x = $event.offsetX;
+                curPos.y = $event.offsetY;
+            }
+            /**
+             * @ngdoc method
+             * @name defaultMouseUp
+             *
+             * @description
+             * Default mouseup event method
+             *
+             * @param {Object} value Event to be processing
+             *
+             */
+            function defaultMouseUp($event) {
+                if (scope.options.controls.disableMove) {
+                    return;
+                }
+                scope.canMove = false;
+            }
+            /**
+             * @ngdoc method
+             * @name defaultMouseMove
+             *
+             * @description
+             * Default mousemove event method
+             *
+             * @param {Object} value Event to be processing
+             *
+             */
+            function defaultMouseMove($event) {
+                mousePos.x = $event.offsetX;
+                mousePos.y = $event.offsetY;
+                if (scope.options.controls.disableMove || (scope.options.zoom.value <= scope.options.zoom.min)) {
+                    return;
+                }
 
-            });
-
+                if ((reader !== null) && (scope.canMove)) {
+                    var coordX = $event.offsetX;
+                    var coordY = $event.offsetY;
+                    var translateX = coordX - curPos.x;
+                    var translateY = coordY - curPos.y;
+                    picPos.x += translateX;
+                    picPos.y += translateY;
+                    applyTransform();
+                    curPos.x = coordX;
+                    curPos.y = coordY;
+                }
+            }
             function applyTransform() {
                 if (reader == null) {
                     return;
@@ -409,44 +510,6 @@
                     });
                 }
             }
-
-            angular.element(canvasEl).bind('mousedown', function ($event) {
-                if (scope.options.controls.disableMove) {
-                    return;
-                }
-
-                scope.canMove = true;
-                curPos.x = $event.offsetX;
-                curPos.y = $event.offsetY;
-            });
-
-            angular.element(canvasEl).bind('mouseup', function ($event) {
-                if (scope.options.controls.disableMove) {
-                    return;
-                }
-
-                scope.canMove = false;
-            });
-
-            angular.element(canvasEl).bind('mousemove', function ($event) {
-                mousePos.x = $event.offsetX;
-                mousePos.y = $event.offsetY;
-                if (scope.options.controls.disableMove || (scope.options.zoom.value <= scope.options.zoom.min)) {
-                    return;
-                }
-
-                if ((reader !== null) && (scope.canMove)) {
-                    var coordX = $event.offsetX;
-                    var coordY = $event.offsetY;
-                    var translateX = coordX - curPos.x;
-                    var translateY = coordY - curPos.y;
-                    picPos.x += translateX;
-                    picPos.y += translateY;
-                    applyTransform();
-                    curPos.x = coordX;
-                    curPos.y = coordY;
-                }
-            });
 
             scope.zoom = function (direction) {
                 scope.$applyAsync(function () {
@@ -593,31 +656,14 @@
                 }
                 return resize;
             }
-            var rootElement = angular.element('#page')[0];
-
-            function rootElementChange() {
-                if (resize.width != rootElement.clientWidth) {
-                    resize.width = rootElement.clientWidth;
-                }
-
-                if (resize.height != rootElement.clientHeight) {
-                    resize.height = rootElement.clientHeight;
-                }
-                return resize;
-            }
 
             //
             scope.$watch(parentChange, function () {
                 resizeCanvas();
             }, true);
 
-            // scope.$watch(rootElementChange, function () {
-            //     resizeCanvas();
-            //     centerPics();
-            // }, true);
-
             // resize canvas on window resize to keep aspect ratio
-            angular.element($window).bind('resize', function () {
+            angular.element($window).on('resize', function () {
                 resizeCanvas();
             });
         }
