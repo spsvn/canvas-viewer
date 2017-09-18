@@ -145,8 +145,6 @@
                 if (reader == null) {
                     return;
                 }
-
-                $log.debug('$state', $state.current.name);
                 if(angular.equals($state.current.name, 'page')){
                     element.find('.viewer-controls').detach();
                 }
@@ -156,6 +154,9 @@
                 } else {
                     scope.resizeTo(scope.options.controls.fit);
                 }
+                $timeout(function(){
+                    scope.resizeTo('page');
+                })
             }
 
             scope.$watch('imageSource', function (value) {
