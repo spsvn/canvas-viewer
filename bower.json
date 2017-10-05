@@ -31,7 +31,7 @@
   ],
   "dependencies": {
     "angular": "latest",
-	"FormatReader": "latest",
+    "FormatReader": "latest",
     "spsvn-tiffjs": "latest",
     "pdfjs-dist": "latest"
   }
