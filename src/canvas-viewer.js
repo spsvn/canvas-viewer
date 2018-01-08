@@ -41,13 +41,13 @@
                 '                            <md-icon>fullscreen</md-icon>' +
                 '                            <md-tooltip md-direction="bottom">{{options.tooltips.fullscreen}}</md-tooltip>' +
                 '                        </md-button>' +
-                '                       <md-button class="md-icon-button" id="btnFlipHorizontal" ng-click="flipVertical()">' +
-                '                            <md-icon style="transform: rotate(90deg);">flip</md-icon>' +
-                '                            <md-tooltip md-direction="bottom">{{options.tooltips.flip_vertical}}</md-tooltip>' +
-                '                        </md-button>' +
                 '                       <md-button class="md-icon-button" id="btnFlipVertical" ng-click="flipHorizontal()">' +
                 '                            <md-icon>flip</md-icon>' +
                 '                            <md-tooltip md-direction="bottom">{{options.tooltips.flip_horizontal}}</md-tooltip>' +
+                '                        </md-button>' +
+                '                       <md-button class="md-icon-button" id="btnFlipHorizontal" ng-click="flipVertical()">' +
+                '                            <md-icon style="transform: rotate(90deg);">flip</md-icon>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.flip_vertical}}</md-tooltip>' +
                 '                        </md-button>' +
                 '                        <md-button class="md-icon-button" id="btnRotateLeft" ng-click="rotate(-1)" ng-hide="options.controls.disableRotate">' +
                 '                            <md-icon>rotate_left</md-icon>' +
