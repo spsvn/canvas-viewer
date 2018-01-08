@@ -27,7 +27,7 @@
                 '                        <md-button class="md-icon-button" id="btnPagePrev" ng-click="options.controls.numPage=options.controls.numPage-1"' +
                 '                                   ng-hide="options.controls.totalPage==1">' +
                 '                            <md-icon>navigate_before</md-icon>' +
-                '                            <md-tooltip md-direction="bottom">Previous</md-tooltip>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.previous_page}}</md-tooltip>' +
                 '                        </md-button>' +
                 '                        <md-button class="md-icon-button" ng-hide="options.controls.totalPage==1">' +
                 '                            {{options.controls.numPage}}/{{options.controls.totalPage}}' +
@@ -35,36 +35,36 @@
                 '                        <md-button class="md-icon-button" id="btnPageNext" ng-click="options.controls.numPage=options.controls.numPage+1"' +
                 '                                   ng-hide="options.controls.totalPage==1">' +
                 '                            <md-icon>navigate_next</md-icon>' +
-                '                            <md-tooltip md-direction="bottom">Next</md-tooltip>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.next_page}}</md-tooltip>' +
                 '                        </md-button>' +
                 '                        <md-button class="md-icon-button" id="btnFullscreen" ng-click="resizeTo(page)">' +
                 '                            <md-icon>fullscreen</md-icon>' +
-                '                            <md-tooltip md-direction="bottom">Fullscreen</md-tooltip>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.fullscreen}}</md-tooltip>' +
                 '                        </md-button>' +
-                '                       <md-button class="md-icon-button" id="btnFlipVertical" ng-click="flipVertical()">' +
-                '                            <md-icon>flip</md-icon>' +
-                '                            <md-tooltip md-direction="bottom">Flip Vertical</md-tooltip>' +
-                '                        </md-button>' +
-                '                       <md-button class="md-icon-button" id="btnFlipHorizontal" ng-click="flipHorizontal()">' +
+                '                       <md-button class="md-icon-button" id="btnFlipHorizontal" ng-click="flipVertical()">' +
                 '                            <md-icon style="transform: rotate(90deg);">flip</md-icon>' +
-                '                            <md-tooltip md-direction="bottom">Flip Horizontal</md-tooltip>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.flip_vertical}}</md-tooltip>' +
+                '                        </md-button>' +
+                '                       <md-button class="md-icon-button" id="btnFlipVertical" ng-click="flipHorizontal()">' +
+                '                            <md-icon>flip</md-icon>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.flip_horizontal}}</md-tooltip>' +
                 '                        </md-button>' +
                 '                        <md-button class="md-icon-button" id="btnRotateLeft" ng-click="rotate(-1)" ng-hide="options.controls.disableRotate">' +
                 '                            <md-icon>rotate_left</md-icon>' +
-                '                            <md-tooltip md-direction="bottom">Rotate Left</md-tooltip>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.rotate_left}}</md-tooltip>' +
                 '                        </md-button>' +
                 '                        <md-button class="md-icon-button" id="btnRotateRight" ng-click="rotate(1)" ng-hide="options.controls.disableRotate">' +
                 '                            <md-icon>rotate_right</md-icon>' +
-                '                            <md-tooltip md-direction="bottom">Rotate Right</md-tooltip>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.rotate_right}}</md-tooltip>' +
                 '                        </md-button>' +
                 '                        <md-button class="md-icon-button" id="btnZoomOut" ng-click="zoom(-1)" ng-hide="options.controls.disableZoom">' +
                 '                            <md-icon>zoom_out</md-icon>' +
-                '                            <md-tooltip md-direction="bottom">Zoom Out</md-tooltip>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.zoom_out}}</md-tooltip>' +
                 '                        </md-button>' +
                 '                        <md-button class="md-icon-button" ng-hide="options.controls.disableZoom">{{options.zoom.value * 100 | number:0}}%</md-button>' +
                 '                        <md-button class="md-icon-button" id="btnZoomIn" ng-click="zoom(1)" ng-hide="options.controls.disableZoom">' +
                 '                            <md-icon>zoom_in</md-icon>' +
-                '                            <md-tooltip md-direction="bottom">Zoom In</md-tooltip>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.zoom_in}}</md-tooltip>' +
                 '                        </md-button>' +
                 '                    </div>' +
                 '                    <div class="canvas-viewer-command" ng-if="options.controls.sound">' +
@@ -74,11 +74,11 @@
                 '                    <div class="viewer-controls" ng-if="options.controls.window">' +
                 '                        <md-button id="btnTogglePage" class="md-icon-button" ng-click="togglePage()"' +
                 '                                   aria-label="Hide Page Window">' +
-                '                            <md-tooltip md-direction="bottom">Hide Page Window</md-tooltip>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.hide_page}}</md-tooltip>' +
                 '                            <md-icon>format_indent_decrease</md-icon>' +
                 '                        </md-button>' +
                 '                        <md-button id="btnDetachPage" class="md-icon-button" ng-click="detachPage($event)" aria-label="Open in new Window">' +
-                '                            <md-tooltip md-direction="bottom">Open in new Window</md-tooltip>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.open_in_new_window}}</md-tooltip>' +
                 '                            <md-icon>open_in_new</md-icon>' +
                 '                        </md-button>' +
                 '                    </div>' +
@@ -121,6 +121,20 @@
             scope.options = angular.merge({}, {
                 ctx: null,
                 adsrc: null,
+                tooltips: {
+                    fullscreen: 'Full Screen',
+                    previous_page: 'Previous',
+                    next_page: 'Next',
+                    fit: 'Fit',
+                    flip_vertical: 'Flip Vertical',
+                    flip_horizontal: 'Flip Horizontal',
+                    rotate_left: 'Rotate Left',
+                    rotate_right: 'Rotate Right',
+                    zoom_in: 'Zoom In',
+                    zoom_out: 'Zoom Out',
+                    hide_page: 'Hide Page Window',
+                    open_in_new_window: 'Open In New Window'
+                },
                 zoom: {
                     value: 1.0,
                     step: 0.1,
@@ -496,14 +510,14 @@
                 scope.$parent.main.detachPage();
             }
 
-            scope.flipVertical = function () {
+            scope.flipHorizontal = function () {
                 scope.$applyAsync(function () {
                     scope.options.rotate.flip = !scope.options.rotate.flip;
                     applyTransform();
                 });
             };
 
-            scope.flipHorizontal = function () {
+            scope.flipVertical = function () {
                 scope.$applyAsync(function () {
                     scope.options.rotate.flip = !scope.options.rotate.flip;
                     scope.options.rotate.value = (scope.options.rotate.value + 180) % 360;
