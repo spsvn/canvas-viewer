@@ -506,8 +506,8 @@
                 scope.$parent.main.togglePage();
             }
 
-            scope.detachPage = function () {
-                scope.$parent.main.detachPage();
+            scope.detachPage = function ($event) {
+                scope.$parent.main.detachPage($event);
             }
 
             scope.flipHorizontal = function () {
