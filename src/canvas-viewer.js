@@ -130,8 +130,7 @@
                 rotate: {
                     value: 0,
                     step: 90,
-                    flipVertical: false,
-                    flipHorizontal: false
+                    flip: false
                 },
                 controls: {
                     toolbar: true,
@@ -328,7 +327,7 @@
                 if (reader.isZoom)
                     ctx.scale(options.zoom.value, options.zoom.value);
 
-                if (scope.options.rotate.flipVertical) {
+                if (scope.options.rotate.flip) {
                     if (options.rotate.value % 180 == 0) {
                         ctx.translate(reader.width, 0);
                         ctx.scale(-1, 1);
@@ -338,15 +337,15 @@
                     }
                 }
 
-                if (scope.options.rotate.flipHorizontal) {
-                    if (options.rotate.value % 180 == 0) {
-                        ctx.translate(0, reader.height);
-                        ctx.scale(1, -1);
-                    } else {
-                        ctx.translate(reader.width, 0);
-                        ctx.scale(-1, 1);
-                    }
-                }
+                // if (scope.options.rotate.flipHorizontal) {
+                //     if (options.rotate.value % 180 == 0) {
+                //         ctx.translate(0, reader.height);
+                //         ctx.scale(1, -1);
+                //     } else {
+                //         ctx.translate(reader.width, 0);
+                //         ctx.scale(-1, 1);
+                //     }
+                // }
 
                 // Draw image at correct position with correct scale
                 if (reader.data != null) {
@@ -499,14 +498,16 @@
 
             scope.flipVertical = function () {
                 scope.$applyAsync(function () {
-                    scope.options.rotate.flipVertical = !scope.options.rotate.flipVertical;
+                    scope.options.rotate.flip = !scope.options.rotate.flip;
                     applyTransform();
                 });
             };
 
             scope.flipHorizontal = function () {
                 scope.$applyAsync(function () {
-                    scope.options.rotate.flipHorizontal = !scope.options.rotate.flipHorizontal;
+                    scope.options.rotate.flip = !scope.options.rotate.flip;
+                    scope.options.rotate.value = (scope.options.rotate.value + 180) % 360;
+                    // scope.options.rotate.flipHorizontal = !scope.options.rotate.flipHorizontal;
                     applyTransform();
                 });
             };
