@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -20,14 +20,14 @@
                 options: '=options',
                 togglePage: '&'
             },
-            template: '           <md-toolbar class="md-small-tall md-whiteframe-2dp">' +
+            template: '           <md-toolbar class="md-small-tall md-whiteframe-2dp" ng-if="options.controls.toolbar">' +
                 '                <h3 class="md-toolbar-tools" layout="row" layout-align="space-between center">' +
                 '                    <md-truncate flex ng-if="title!=null">{{title}}</md-truncate>' +
                 '                    <div class="canvas-viewer-command" ng-if="options.controls.image">' +
                 '                        <md-button class="md-icon-button" id="btnPagePrev" ng-click="options.controls.numPage=options.controls.numPage-1"' +
                 '                                   ng-hide="options.controls.totalPage==1">' +
                 '                            <md-icon>navigate_before</md-icon>' +
-                '                            <md-tooltip md-direction="bottom">Previous</md-tooltip>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.previous_page}}</md-tooltip>' +
                 '                        </md-button>' +
                 '                        <md-button class="md-icon-button" ng-hide="options.controls.totalPage==1">' +
                 '                            {{options.controls.numPage}}/{{options.controls.totalPage}}' +
@@ -35,28 +35,36 @@
                 '                        <md-button class="md-icon-button" id="btnPageNext" ng-click="options.controls.numPage=options.controls.numPage+1"' +
                 '                                   ng-hide="options.controls.totalPage==1">' +
                 '                            <md-icon>navigate_next</md-icon>' +
-                '                            <md-tooltip md-direction="bottom">Next</md-tooltip>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.next_page}}</md-tooltip>' +
                 '                        </md-button>' +
                 '                        <md-button class="md-icon-button" id="btnFullscreen" ng-click="resizeTo(page)">' +
                 '                            <md-icon>fullscreen</md-icon>' +
-                '                            <md-tooltip md-direction="bottom">Fullscreen</md-tooltip>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.fullscreen}}</md-tooltip>' +
+                '                        </md-button>' +
+                '                       <md-button class="md-icon-button" id="btnFlipVertical" ng-click="flipHorizontal()">' +
+                '                            <md-icon>flip</md-icon>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.flip_horizontal}}</md-tooltip>' +
+                '                        </md-button>' +
+                '                       <md-button class="md-icon-button" id="btnFlipHorizontal" ng-click="flipVertical()">' +
+                '                            <md-icon style="transform: rotate(90deg);">flip</md-icon>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.flip_vertical}}</md-tooltip>' +
                 '                        </md-button>' +
                 '                        <md-button class="md-icon-button" id="btnRotateLeft" ng-click="rotate(-1)" ng-hide="options.controls.disableRotate">' +
                 '                            <md-icon>rotate_left</md-icon>' +
-                '                            <md-tooltip md-direction="bottom">Rotate Left</md-tooltip>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.rotate_left}}</md-tooltip>' +
                 '                        </md-button>' +
                 '                        <md-button class="md-icon-button" id="btnRotateRight" ng-click="rotate(1)" ng-hide="options.controls.disableRotate">' +
                 '                            <md-icon>rotate_right</md-icon>' +
-                '                            <md-tooltip md-direction="bottom">Rotate Right</md-tooltip>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.rotate_right}}</md-tooltip>' +
                 '                        </md-button>' +
                 '                        <md-button class="md-icon-button" id="btnZoomOut" ng-click="zoom(-1)" ng-hide="options.controls.disableZoom">' +
                 '                            <md-icon>zoom_out</md-icon>' +
-                '                            <md-tooltip md-direction="bottom">Zoom Out</md-tooltip>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.zoom_out}}</md-tooltip>' +
                 '                        </md-button>' +
                 '                        <md-button class="md-icon-button" ng-hide="options.controls.disableZoom">{{options.zoom.value * 100 | number:0}}%</md-button>' +
                 '                        <md-button class="md-icon-button" id="btnZoomIn" ng-click="zoom(1)" ng-hide="options.controls.disableZoom">' +
                 '                            <md-icon>zoom_in</md-icon>' +
-                '                            <md-tooltip md-direction="bottom">Zoom In</md-tooltip>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.zoom_in}}</md-tooltip>' +
                 '                        </md-button>' +
                 '                    </div>' +
                 '                    <div class="canvas-viewer-command" ng-if="options.controls.sound">' +
@@ -66,11 +74,11 @@
                 '                    <div class="viewer-controls" ng-if="options.controls.window">' +
                 '                        <md-button id="btnTogglePage" class="md-icon-button" ng-click="togglePage()"' +
                 '                                   aria-label="Hide Page Window">' +
-                '                            <md-tooltip md-direction="bottom">Hide Page Window</md-tooltip>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.hide_page}}</md-tooltip>' +
                 '                            <md-icon>format_indent_decrease</md-icon>' +
                 '                        </md-button>' +
                 '                        <md-button id="btnDetachPage" class="md-icon-button" ng-click="detachPage($event)" aria-label="Open in new Window">' +
-                '                            <md-tooltip md-direction="bottom">Open in new Window</md-tooltip>' +
+                '                            <md-tooltip md-direction="bottom">{{options.tooltips.open_in_new_window}}</md-tooltip>' +
                 '                            <md-icon>open_in_new</md-icon>' +
                 '                        </md-button>' +
                 '                    </div>' +
@@ -113,6 +121,20 @@
             scope.options = angular.merge({}, {
                 ctx: null,
                 adsrc: null,
+                tooltips: {
+                    fullscreen: 'Full Screen',
+                    previous_page: 'Previous',
+                    next_page: 'Next',
+                    fit: 'Fit',
+                    flip_vertical: 'Flip Vertical',
+                    flip_horizontal: 'Flip Horizontal',
+                    rotate_left: 'Rotate Left',
+                    rotate_right: 'Rotate Right',
+                    zoom_in: 'Zoom In',
+                    zoom_out: 'Zoom Out',
+                    hide_page: 'Hide Page Window',
+                    open_in_new_window: 'Open In New Window'
+                },
                 zoom: {
                     value: 1.0,
                     step: 0.1,
@@ -121,7 +143,8 @@
                 },
                 rotate: {
                     value: 0,
-                    step: 90
+                    step: 90,
+                    flip: false
                 },
                 controls: {
                     toolbar: true,
@@ -154,22 +177,24 @@
                 } else {
                     scope.resizeTo(scope.options.controls.fit);
                 }
-                $timeout(function() {
+                $timeout(function () {
                     scope.resizeTo('page');
                 })
             }
 
-            scope.$watch('imageSource', function(value) {
+            scope.$watch('imageSource', function (value) {
                 if (value === undefined || value === null)
                     return;
                 // initialize values on load
                 scope.options.zoom.value = 1.0;
-                scope.options.rotate.value = 0;
+                if (!scope.options.rotate.value) {
+                    scope.options.rotate.value = 0;
+                }
                 curPos = { x: 0, y: 0 };
                 picPos = { x: 0, y: 0 };
 
                 // test if object or string is input of directive
-                if (typeof(value) === 'object') {
+                if (typeof (value) === 'object') {
                     // Object type file
                     if (formatReader.IsSupported(value.type)) {
                         // get object
@@ -179,42 +204,49 @@
                     } else {
                         console.log(value.type, ' not supported !');
                     }
-                } else if (typeof(value) === 'string') {
+                } else if (typeof (value) === 'string') {
                     reader = formatReader.CreateReader("image/jpeg").create(value, scope.options, onload, $q, $timeout);
                 }
             });
 
-            scope.$watch('overlays', function(newarr, oldarr) {
+            scope.$watch('overlays', function (newarr, oldarr) {
                 // initialize new overlay
                 if (newarr === null || oldarr === null)
                     return;
 
                 // new added
                 overlays = [];
-                angular.forEach(newarr, function(item) {
+                angular.forEach(newarr, function (item) {
                     overlays.push(item);
                 });
 
                 applyTransform();
             }, true);
 
-            scope.$watch('options.zoom.value', function() {
+            scope.$watch('options.zoom.value', function () {
                 if (!scope.options.controls.disableZoom) {
+                    if (scope.options.zoom.value >= scope.options.zoom.max) {
+                        scope.options.zoom.value = scope.options.zoom.max;
+                    }
+                    if (scope.options.zoom.value <= scope.options.zoom.min) {
+                        scope.options.zoom.value = scope.options.zoom.min;
+                    }
                     applyTransform();
+
                 }
             });
 
-            scope.$watch('options.rotate.value', function() {
+            scope.$watch('options.rotate.value', function () {
                 if (!scope.options.controls.disableRotate) {
                     applyTransform();
                 }
             });
 
-            scope.$watch('options.controls.fit', function(value) {
+            scope.$watch('options.controls.fit', function (value) {
                 scope.resizeTo(value);
             });
 
-            scope.$watch('options.controls.filmStrip', function(position) {
+            scope.$watch('options.controls.filmStrip', function (position) {
 
                 if (position) {
                     scope.options.controls.disableMove = true;
@@ -228,7 +260,7 @@
                 }
             });
 
-            scope.$watch('options.controls.numPage', function(value) {
+            scope.$watch('options.controls.numPage', function (value) {
                 // Limit page navigation
                 if (scope.options.controls.numPage < 1) scope.options.controls.numPage = 1;
                 if (scope.options.controls.numPage > scope.options.controls.totalPage) scope.options.controls.numPage = scope.options.controls.totalPage;
@@ -246,10 +278,10 @@
             });
 
             // Bind mousewheel
-            angular.element(canvasEl).bind("DOMMouseScroll mousewheel onmousewheel", function($event) {
+            angular.element(canvasEl).bind("DOMMouseScroll mousewheel onmousewheel", function ($event) {
 
                 // cross-browser wheel delta
-                var event = window.event || $event; // old IE support
+                var event = $window.event || $event; // old IE support
                 var delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
                 if (scope.options.controls.filmStrip) {
                     picPos.y += 50 * delta;
@@ -267,7 +299,7 @@
                         }
                     }
                     //
-                    scope.$applyAsync(function() {
+                    scope.$applyAsync(function () {
                         applyTransform();
                     });
                 } else {
@@ -304,9 +336,31 @@
                 ctx.rotate(options.rotate.value * Math.PI / 180);
                 // Go back
                 ctx.translate(-centerX, -centerY);
+
                 // Change scale
                 if (reader.isZoom)
                     ctx.scale(options.zoom.value, options.zoom.value);
+
+                if (scope.options.rotate.flip) {
+                    if (options.rotate.value % 180 == 0) {
+                        ctx.translate(reader.width, 0);
+                        ctx.scale(-1, 1);
+                    } else {
+                        ctx.translate(0, reader.height);
+                        ctx.scale(1, -1);
+                    }
+                }
+
+                // if (scope.options.rotate.flipHorizontal) {
+                //     if (options.rotate.value % 180 == 0) {
+                //         ctx.translate(0, reader.height);
+                //         ctx.scale(1, -1);
+                //     } else {
+                //         ctx.translate(reader.width, 0);
+                //         ctx.scale(-1, 1);
+                //     }
+                // }
+
                 // Draw image at correct position with correct scale
                 if (reader.data != null) {
                     var imageData = ctx.createImageData(reader.width, reader.height);
@@ -324,7 +378,7 @@
                     }
                 } else {
                     if (reader.images != null) {
-                        angular.forEach(reader.images, function(image) {
+                        angular.forEach(reader.images, function (image) {
                             ctx.drawImage(image, 0, 0, image.width, image.height);
                             ctx.beginPath();
                             ctx.rect(0, 0, image.width, image.height);
@@ -340,7 +394,7 @@
 
                 // Draw overlays
                 if (overlays.length > 0) {
-                    angular.forEach(overlays, function(item) {
+                    angular.forEach(overlays, function (item) {
                         ctx.save();
                         // move to mouse position
                         ctx.translate((picPos.x + centerX), (picPos.y + centerY));
@@ -364,7 +418,7 @@
                 }
             }
 
-            angular.element(canvasEl).bind('mousedown', function($event) {
+            angular.element(canvasEl).bind('mousedown', function ($event) {
                 if (scope.options.controls.disableMove) {
                     return;
                 }
@@ -374,7 +428,7 @@
                 curPos.y = $event.offsetY;
             });
 
-            angular.element(canvasEl).bind('mouseup', function($event) {
+            angular.element(canvasEl).bind('mouseup', function ($event) {
                 if (scope.options.controls.disableMove) {
                     return;
                 }
@@ -382,7 +436,7 @@
                 scope.canMove = false;
             });
 
-            angular.element(canvasEl).bind('mousemove', function($event) {
+            angular.element(canvasEl).bind('mousemove', function ($event) {
                 mousePos.x = $event.offsetX;
                 mousePos.y = $event.offsetY;
                 if (scope.options.controls.disableMove || (scope.options.zoom.value <= scope.options.zoom.min)) {
@@ -402,8 +456,8 @@
                 }
             });
 
-            scope.zoom = function(direction) {
-                scope.$applyAsync(function() {
+            scope.zoom = function (direction) {
+                scope.$applyAsync(function () {
                     var oldWidth, newWidth = 0;
                     var oldHeight, newHeight = 0;
                     // Does reader support zoom ?
@@ -448,16 +502,32 @@
                 });
             }
 
-            scope.togglePage = function() {
+            scope.togglePage = function () {
                 scope.$parent.main.togglePage();
             }
 
-            scope.detachPage = function() {
-                scope.$parent.main.detachPage();
+            scope.detachPage = function ($event) {
+                scope.$parent.main.detachPage($event);
             }
 
-            scope.rotate = function(direction) {
-                scope.$applyAsync(function() {
+            scope.flipHorizontal = function () {
+                scope.$applyAsync(function () {
+                    scope.options.rotate.flip = !scope.options.rotate.flip;
+                    applyTransform();
+                });
+            };
+
+            scope.flipVertical = function () {
+                scope.$applyAsync(function () {
+                    scope.options.rotate.flip = !scope.options.rotate.flip;
+                    scope.options.rotate.value = (scope.options.rotate.value + 180) % 360;
+                    // scope.options.rotate.flipHorizontal = !scope.options.rotate.flipHorizontal;
+                    applyTransform();
+                });
+            };
+
+            scope.rotate = function (direction) {
+                scope.$applyAsync(function () {
                     scope.options.rotate.value += scope.options.rotate.step * direction;
                     if ((scope.options.rotate.value <= -360) || (scope.options.rotate.value >= 360)) {
                         scope.options.rotate.value = 0;
@@ -466,7 +536,7 @@
                 });
             };
 
-            var centerPics = function() {
+            var centerPics = function () {
                 // Position to canvas center
                 var centerX = ctx.canvas.width / 2;
                 var picPosX = 0;
@@ -475,7 +545,7 @@
                 picPos = { x: picPosX, y: 0 };
             }
 
-            scope.resizeTo = function(value) {
+            scope.resizeTo = function (value) {
                 if ((ctx.canvas == null) || (reader == null)) {
                     return;
                 }
@@ -501,7 +571,7 @@
                     default:
                         scope.options.zoom.value = Math.min(ratioH, ratioW);
                 }
-                scope.$applyAsync(function() {
+                scope.$applyAsync(function () {
                     // Round zoom value
                     scope.options.zoom.value = Math.round(scope.options.zoom.value * 100) / 100;
                     // Replace zoom.min value
@@ -523,20 +593,20 @@
                 });
             }
 
-            scope.play = function() {
+            scope.play = function () {
                 if (scope.options.adsrc != null) {
                     scope.options.adsrc.start(0);
                 }
             }
 
-            scope.stop = function() {
+            scope.stop = function () {
                 if (scope.options.adsrc != null) {
                     scope.options.adsrc.stop(0);
                 }
             }
 
             function resizeCanvas() {
-                scope.$applyAsync(function() {
+                scope.$applyAsync(function () {
                     var canvasSize = canvasEl.parentNode;
                     ctx.canvas.width = canvasSize.clientWidth;
                     ctx.canvas.height = canvasSize.clientHeight;
@@ -569,7 +639,7 @@
             }
 
             //
-            scope.$watch(parentChange, function() {
+            scope.$watch(parentChange, function () {
                 resizeCanvas();
             }, true);
 
@@ -579,9 +649,13 @@
             // }, true);
 
             // resize canvas on window resize to keep aspect ratio
-            angular.element($window).bind('resize', function() {
+            angular.element($window).bind('resize', function () {
                 resizeCanvas();
             });
+
+            // scope.$watch('options', function(value){
+            //     console.log(value);
+            // }, true)
         }
     }
 
